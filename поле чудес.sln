@@ -1,31 +1,87 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36616.10 d17.14
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "поле чудес", "поле чудес\поле чудес.csproj", "{247FFF7D-425F-4989-A57D-BAAC4D9EB5A9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "22пр", "22пр\22пр.csproj", "{0CF66D7F-3771-4775-B255-9E1280415C85}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{247FFF7D-425F-4989-A57D-BAAC4D9EB5A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{247FFF7D-425F-4989-A57D-BAAC4D9EB5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{247FFF7D-425F-4989-A57D-BAAC4D9EB5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{247FFF7D-425F-4989-A57D-BAAC4D9EB5A9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CF66D7F-3771-4775-B255-9E1280415C85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CF66D7F-3771-4775-B255-9E1280415C85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CF66D7F-3771-4775-B255-9E1280415C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CF66D7F-3771-4775-B255-9E1280415C85}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8A4EE87D-08CD-49B0-9083-AC4E4F6CE0E2}
-	EndGlobalSection
-EndGlobal
+using System;
+using System.Linq;
+
+public class FieldOfWonders
+{
+    public static void Main(string[] args)
+    {
+
+        Console.WriteLine("Введите слово для угадывания:");
+        string guessedWord = Console.ReadLine();
+        Console.Clear();
+
+        char[] hiddenWord = HideOriginalWord(guessedWord);
+
+        bool word = false;
+
+        word = FoundWord(hiddenWord, guessedWord);
+
+
+        Console.WriteLine("Поздравляем! Вы угадали слово: " + guessedWord);
+    }
+
+
+    static char[] HideOriginalWord(string guessedWord)
+    {
+        char[] hiddenWord = new char[guessedWord.Length];
+        for (int i = 0; i < hiddenWord.Length; i++)
+        {
+            hiddenWord[i] = '*';
+
+        }
+
+        Console.WriteLine(hiddenWord);
+        return hiddenWord;
+    }
+
+    static bool FoundWord(char[] hiddenWord, string guessedWord)
+    {
+        bool word = false;
+        while (!word)
+        {
+            Console.WriteLine("Загаданное слово: " + new string(hiddenWord));
+            Console.WriteLine("Введите букву:");
+
+            bool a = TrueGuess(hiddenWord, guessedWord);
+
+            word = TrueOrNo(hiddenWord, guessedWord, a);
+         
+            Console.WriteLine();
+
+        }
+        return word;
+    }
+    static bool TrueGuess(char[] hiddenWord, string guessedWord)
+    {
+        char guess = Console.ReadKey().KeyChar;
+        Console.WriteLine();
+        bool a = false;
+        for (int i = 0; i < guessedWord.Length; i++)
+        {
+            if (guessedWord[i] == guess)
+            {
+                hiddenWord[i] = guess;
+                a = true;
+            }
+        }
+        return a;
+    }
+
+    static bool TrueOrNo(char [] hiddenWord, string guessedWord ,bool a) 
+    {
+        
+        if (a)
+        {
+            Console.WriteLine("Верно!");
+        }
+        else
+        {
+            Console.WriteLine("Неверно, попробуйте еще раз");
+        }
+        if (new string(hiddenWord) == guessedWord)
+        {
+            return true;
+        }
+        return false;
+    }
+}
